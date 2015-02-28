@@ -44,10 +44,13 @@ public class DrawingView extends View {
     }
 
     public void setErase(boolean isErase){
-        //set erase true or false
         erase=isErase;
-        if(erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else drawPaint.setXfermode(null);
+        if(erase)
+        //drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        this.setColor("#FFFFFFFF");
+
+        else
+            drawPaint.setXfermode(null);
     }
 
     private void setupDrawing(){

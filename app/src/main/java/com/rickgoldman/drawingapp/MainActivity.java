@@ -1,13 +1,13 @@
 package com.rickgoldman.drawingapp;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import java.util.UUID;
 import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,14 +20,18 @@ import android.widget.LinearLayout;
 public class MainActivity extends Activity implements OnClickListener {
 
     private DrawingView drawView;
+    private TextView pageNumberView;
     private float smallBrush, mediumBrush, largeBrush;
-    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
+    private int pageNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawView = (DrawingView)findViewById(R.id.drawing);
+        pageNumberView = (TextView) this.findViewById(R.id.viewPageNumber);
+        pageNumberView.setText(Integer.toString(pageNumber));
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
@@ -43,6 +47,10 @@ public class MainActivity extends Activity implements OnClickListener {
         newBtn.setOnClickListener(this);
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+        nextBtn = (ImageButton)findViewById(R.id.next_btn);
+        nextBtn.setOnClickListener(this);
+        prevBtn = (ImageButton)findViewById(R.id.prev_btn);
+        prevBtn.setOnClickListener(this);
 
     }
 
@@ -178,12 +186,29 @@ public class MainActivity extends Activity implements OnClickListener {
             saveDialog.show();
         }
 
+        else if(view.getId()==R.id.next_btn) {
+            //go to next image in list
+            pageNumber++;
+            if (pageNumber >= 8) pageNumber = 8;
+
+            pageNumberView.setText(Integer.toString(pageNumber));
+        }
+
+        else if(view.getId()==R.id.prev_btn) {
+            //go to next image in list
+            pageNumber--;
+            if (pageNumber <= 0) pageNumber = 0;
+            pageNumberView.setText(Integer.toString(pageNumber));
+        }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
 
