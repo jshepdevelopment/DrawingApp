@@ -1,6 +1,7 @@
 package com.rickgoldman.drawingapp;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
@@ -97,6 +98,11 @@ public class DrawingView extends View {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
+    }
+
+    protected void reDraw(Canvas canvas, Bitmap myBitmap) {
+        //draw view
+        canvas.drawBitmap(myBitmap, 0, 0, canvasPaint);
     }
 
     @Override

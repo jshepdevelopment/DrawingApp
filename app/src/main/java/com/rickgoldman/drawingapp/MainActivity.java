@@ -2,6 +2,9 @@ package com.rickgoldman.drawingapp;
 
 import android.app.Activity;
 import java.util.UUID;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,6 +23,8 @@ import android.widget.LinearLayout;
 public class MainActivity extends Activity implements OnClickListener {
 
     private DrawingView drawView;
+    private Canvas canvas;
+    private Bitmap firstPageImage, secondPageImage;
     private TextView pageNumberView;
     private float smallBrush, mediumBrush, largeBrush;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
@@ -187,11 +192,20 @@ public class MainActivity extends Activity implements OnClickListener {
         }
 
         else if(view.getId()==R.id.next_btn) {
+
+            //Get the contents of drawView and save to bitmap
+            drawView.setDrawingCacheEnabled(true);
+            firstPageImage = drawView.getDrawingCache();
+
             //go to next image in list
             pageNumber++;
             if (pageNumber >= 8) pageNumber = 8;
-
             pageNumberView.setText(Integer.toString(pageNumber));
+
+            //Clear drawViewCache and clear drawView for next page
+            drawView.destroyDrawingCache();
+            drawView.startNew();
+
         }
 
         else if(view.getId()==R.id.prev_btn) {
@@ -199,6 +213,8 @@ public class MainActivity extends Activity implements OnClickListener {
             pageNumber--;
             if (pageNumber <= 0) pageNumber = 0;
             pageNumberView.setText(Integer.toString(pageNumber));
+
+            drawView.reDraw(canvas, firstPageImage);
         }
 
     }
