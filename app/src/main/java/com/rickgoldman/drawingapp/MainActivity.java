@@ -4,6 +4,7 @@ import android.app.Activity;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.provider.MediaStore;
 import android.app.AlertDialog;
@@ -193,18 +194,24 @@ public class MainActivity extends Activity implements OnClickListener {
 
         else if(view.getId()==R.id.next_btn) {
 
-            //Get the contents of drawView and save to bitmap
-            drawView.setDrawingCacheEnabled(true);
-            firstPageImage = drawView.getDrawingCache();
-
             //go to next image in list
             pageNumber++;
             if (pageNumber >= 8) pageNumber = 8;
             pageNumberView.setText(Integer.toString(pageNumber));
 
+
+            //Save to bitmap before clearing screen for next page
+            Bitmap bitmap;
+
+            //DrawingView tempView = (DrawingView)findViewById(R.id.drawing);;
+            drawView.setDrawingCacheEnabled(true);
+            bitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+            Canvas c = new Canvas(bitmap);
+            drawView.draw(c);
+            drawView.setDrawingCacheEnabled(false);
+
+
             //Clear drawViewCache and clear drawView for next page
-            drawView.destroyDrawingCache();
-            drawView.startNew();
 
         }
 
@@ -212,9 +219,10 @@ public class MainActivity extends Activity implements OnClickListener {
             //go to next image in list
             pageNumber--;
             if (pageNumber <= 0) pageNumber = 0;
+
             pageNumberView.setText(Integer.toString(pageNumber));
 
-            drawView.reDraw(canvas, firstPageImage);
+
         }
 
     }

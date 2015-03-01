@@ -95,14 +95,21 @@ public class DrawingView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
 
     protected void reDraw(Canvas canvas, Bitmap myBitmap) {
-        //draw view
-        canvas.drawBitmap(myBitmap, 0, 0, canvasPaint);
+
+        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+
+        //get current page number
+        //get bitmap from that page
+        //draw that bitmap to screen
+
+
     }
 
     @Override
