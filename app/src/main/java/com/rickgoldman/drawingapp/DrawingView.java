@@ -99,16 +99,6 @@ public class DrawingView extends View {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
-    }
-
-    protected void reDraw(Canvas canvas, Bitmap myBitmap) {
-
-        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-
-        //get current page number
-        //get bitmap from that page
-        //draw that bitmap to screen
-
 
     }
 

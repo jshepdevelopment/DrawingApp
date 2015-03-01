@@ -6,6 +6,8 @@ import java.util.UUID;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,12 +26,15 @@ import android.widget.LinearLayout;
 public class MainActivity extends Activity implements OnClickListener {
 
     private DrawingView drawView;
-    private Canvas canvas;
-    private Bitmap firstPageImage, secondPageImage;
+    private Canvas canvasPage1, canvasPage2, canvasPage3, canvasPage4, canvasPage5, canvasPage6,
+                    canvasPage7, canvasPage8;
+    private Bitmap firstPageBitmap, secondPageBitmap, thirdPageBitmap, fourthPageBitmap,
+                    fifthPageBitmap, sixthPageBitmap, seventhPageBitmap,eighthPageBitmap;
     private TextView pageNumberView;
     private float smallBrush, mediumBrush, largeBrush;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
     private int pageNumber = 1;
+    private Boolean drawingUpdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,12 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view){
 
-        //respond to clicks
+        //Check whether the drawing is updated
+        if(view.getId()==R.id.drawing){
+               drawingUpdated = true;
+        }
+
+        //draw button properties
         if(view.getId()==R.id.draw_btn){
             //draw button clicked
             final Dialog brushDialog = new Dialog(this);
@@ -151,8 +161,8 @@ public class MainActivity extends Activity implements OnClickListener {
                     dialog.dismiss();
                 }
             });
-            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
+            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
@@ -164,19 +174,18 @@ public class MainActivity extends Activity implements OnClickListener {
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
             saveDialog.setTitle("Save drawing");
             saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
+            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
                     //save drawing
                     drawView.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
-                            UUID.randomUUID().toString()+".png", "drawing");
-                    if(imgSaved!=null){
+                            UUID.randomUUID().toString() + ".png", "drawing");
+                    if (imgSaved != null) {
                         Toast savedToast = Toast.makeText(getApplicationContext(),
                                 "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
                         savedToast.show();
-                    }
-                    else{
+                    } else {
                         Toast unsavedToast = Toast.makeText(getApplicationContext(),
                                 "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
                         unsavedToast.show();
@@ -184,8 +193,8 @@ public class MainActivity extends Activity implements OnClickListener {
                     drawView.destroyDrawingCache();
                 }
             });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
+            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
@@ -195,33 +204,135 @@ public class MainActivity extends Activity implements OnClickListener {
         else if(view.getId()==R.id.next_btn) {
 
             //go to next image in list
+            //set page number
             pageNumber++;
             if (pageNumber >= 8) pageNumber = 8;
             pageNumberView.setText(Integer.toString(pageNumber));
 
+            if(drawingUpdated) {
 
-            //Save to bitmap before clearing screen for next page
-            Bitmap bitmap;
+                drawView.setDrawingCacheEnabled(true);
 
-            //DrawingView tempView = (DrawingView)findViewById(R.id.drawing);;
-            drawView.setDrawingCacheEnabled(true);
-            bitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-            Canvas c = new Canvas(bitmap);
-            drawView.draw(c);
-            drawView.setDrawingCacheEnabled(false);
+                switch (pageNumber - 1) {
 
+                    //Assign images based on page number.
+                    case 1: {
+                        firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage1 = new Canvas(firstPageBitmap);
+                        break;
+                    }
+                    case 2: {
+                        secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage2 = new Canvas(secondPageBitmap);
+                        break;
+                    }
+                    case 3: {
+                        thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage3 = new Canvas(thirdPageBitmap);
+                    }
+                    case 4: {
+                        fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage4 = new Canvas(fourthPageBitmap);
+                    }
+                    case 5: {
+                        fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage5 = new Canvas(fifthPageBitmap);
+                        break;
+                    }
+                    case 6: {
+                        sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage6 = new Canvas(sixthPageBitmap);
+                        break;
+                    }
+                    case 7: {
+                        seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage7 = new Canvas(seventhPageBitmap);
+                        break;
+                    }
+                    case 8: {
+                        eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                        canvasPage8 = new Canvas(eighthPageBitmap);
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
 
+                }
+            }
             //Clear drawViewCache and clear drawView for next page
+            drawView.setDrawingCacheEnabled(false);
+            if(pageNumber != 8)drawView.startNew();
 
         }
 
         else if(view.getId()==R.id.prev_btn) {
+
+            Drawable d;
+
             //go to next image in list
             pageNumber--;
-            if (pageNumber <= 0) pageNumber = 0;
+            if (pageNumber <= 1) pageNumber = 1;
+
+            // Get the current page number and redraw the images based on page number.
+            switch(pageNumber) {
+
+                //Assign images based on page number.
+                case 1: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), firstPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 2: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), secondPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 3: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), thirdPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 4: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), fourthPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 5: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), fifthPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 6: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), sixthPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 7: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), seventhPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                case 8: {
+                    drawView.startNew();
+                    d = new BitmapDrawable(getResources(), eighthPageBitmap);
+                    drawView.setBackground(d);
+                    break;
+                }
+                default :{
+                    break;
+                }
+
+            }
 
             pageNumberView.setText(Integer.toString(pageNumber));
-
 
         }
 
