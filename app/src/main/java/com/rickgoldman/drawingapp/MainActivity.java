@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.view.MotionEvent;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private float smallBrush, mediumBrush, largeBrush;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
     private int pageNumber = 1;
-    private Boolean drawingUpdated = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +68,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view){
-
-        //Check whether the drawing is updated
-        if(view.getId()==R.id.drawing){
-               drawingUpdated = true;
-        }
 
         //draw button properties
         if(view.getId()==R.id.draw_btn){
@@ -209,7 +205,7 @@ public class MainActivity extends Activity implements OnClickListener {
             if (pageNumber >= 8) pageNumber = 8;
             pageNumberView.setText(Integer.toString(pageNumber));
 
-            if(drawingUpdated) {
+//            if(drawingUpdated == 1) {
 
                 drawView.setDrawingCacheEnabled(true);
 
@@ -217,22 +213,24 @@ public class MainActivity extends Activity implements OnClickListener {
 
                     //Assign images based on page number.
                     case 1: {
-                        firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage1 = new Canvas(firstPageBitmap);
-                        break;
+                            firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage1 = new Canvas(firstPageBitmap);
+                         break;
                     }
                     case 2: {
-                        secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage2 = new Canvas(secondPageBitmap);
+                            secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage2 = new Canvas(secondPageBitmap);
                         break;
                     }
                     case 3: {
                         thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
                         canvasPage3 = new Canvas(thirdPageBitmap);
+                        break;
                     }
                     case 4: {
                         fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
                         canvasPage4 = new Canvas(fourthPageBitmap);
+                        break;
                     }
                     case 5: {
                         fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
@@ -259,7 +257,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     }
 
                 }
-            }
+//            }
             //Clear drawViewCache and clear drawView for next page
             drawView.setDrawingCacheEnabled(false);
             if(pageNumber != 8)drawView.startNew();
@@ -333,7 +331,6 @@ public class MainActivity extends Activity implements OnClickListener {
             }
 
             pageNumberView.setText(Integer.toString(pageNumber));
-
         }
 
     }
