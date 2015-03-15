@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements OnClickListener {
         prevBtn = (ImageButton)findViewById(R.id.prev_btn);
         prevBtn.setOnClickListener(this);
 
+
         drawView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -82,7 +83,6 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 
     }
-
 
 
     @Override
@@ -227,27 +227,6 @@ public class MainActivity extends Activity implements OnClickListener {
             Drawable d;
             drawView.setDrawingCacheEnabled(true);
 
-            if (firststep == 0) {
-                firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage1 = new Canvas(firstPageBitmap);
-                secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage2 = new Canvas(secondPageBitmap);
-                thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage3 = new Canvas(thirdPageBitmap);
-                fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage4 = new Canvas(fourthPageBitmap);
-                fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage5 = new Canvas(fifthPageBitmap);
-                sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage6 = new Canvas(sixthPageBitmap);
-                seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage7 = new Canvas(seventhPageBitmap);
-                eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                canvasPage8 = new Canvas(eighthPageBitmap);
-                firststep = 1;
-            }
-
-
             if (drawingUpdated == 1) {
 
                 switch (pageNumber - 1) {
@@ -256,6 +235,27 @@ public class MainActivity extends Activity implements OnClickListener {
                     case 1: {
                         firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
                         canvasPage1 = new Canvas(firstPageBitmap);
+
+                            /*Hack necessary because unable in initialize in OnCreate */
+                            if (firststep == 0) {
+                                drawView.startNew();
+                                secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage2 = new Canvas(secondPageBitmap);
+                                thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage3 = new Canvas(thirdPageBitmap);
+                                fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage4 = new Canvas(fourthPageBitmap);
+                                fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage5 = new Canvas(fifthPageBitmap);
+                                sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage6 = new Canvas(sixthPageBitmap);
+                                seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage7 = new Canvas(seventhPageBitmap);
+                                eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                                canvasPage8 = new Canvas(eighthPageBitmap);
+                                firststep = 1;
+                            }
+
                         break;
                     }
                     case 2: {
