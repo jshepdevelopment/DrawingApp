@@ -28,10 +28,9 @@ import android.widget.LinearLayout;
 public class MainActivity extends Activity implements OnClickListener {
 
     private DrawingView drawView;
-    private Canvas canvasPage1, canvasPage2, canvasPage3, canvasPage4, canvasPage5, canvasPage6,
-                    canvasPage7, canvasPage8;
+    private Canvas canvasPage1, canvasPage2, canvasPage3, canvasPage4, canvasPage5;
     private Bitmap firstPageBitmap, secondPageBitmap, thirdPageBitmap, fourthPageBitmap,
-                    fifthPageBitmap, sixthPageBitmap, seventhPageBitmap,eighthPageBitmap;
+                    fifthPageBitmap;
     private TextView pageNumberView, testView;
     private float smallBrush, mediumBrush, largeBrush;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
@@ -220,21 +219,25 @@ public class MainActivity extends Activity implements OnClickListener {
 
             //go to next image in list
             //set page number
-            pageNumber++;
-            if (pageNumber >= 8) pageNumber = 8;
-            pageNumberView.setText(Integer.toString(pageNumber));
+            if (pageNumber < 6) {
 
-            Drawable d;
-            drawView.setDrawingCacheEnabled(true);
+                pageNumber++;
+                if (pageNumber >= 5) pageNumber = 5;
+                pageNumberView.setText(Integer.toString(pageNumber));
 
-            if (drawingUpdated == 1) {
+                Drawable d;
+                drawView.setDrawingCacheEnabled(true);
 
-                switch (pageNumber - 1) {
 
-                    //Assign images based on page number.
-                    case 1: {
-                        firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage1 = new Canvas(firstPageBitmap);
+
+                if (drawingUpdated == 1) {
+
+                    switch (pageNumber - 1) {
+
+                        //Assign images based on page number.
+                        case 1: {
+                            firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage1 = new Canvas(firstPageBitmap);
 
                             /*Hack necessary because unable in initialize in OnCreate */
                             if (firststep == 0) {
@@ -247,50 +250,71 @@ public class MainActivity extends Activity implements OnClickListener {
                                 canvasPage4 = new Canvas(fourthPageBitmap);
                                 fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
                                 canvasPage5 = new Canvas(fifthPageBitmap);
-                                sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                                canvasPage6 = new Canvas(sixthPageBitmap);
-                                seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                                canvasPage7 = new Canvas(seventhPageBitmap);
-                                eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                                canvasPage8 = new Canvas(eighthPageBitmap);
                                 firststep = 1;
                             }
 
+                            break;
+                        }
+                        case 2: {
+                            secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage2 = new Canvas(secondPageBitmap);
+                            break;
+                        }
+                        case 3: {
+                            thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage3 = new Canvas(thirdPageBitmap);
+                            break;
+                        }
+                        case 4: {
+                            fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage4 = new Canvas(fourthPageBitmap);
+                            break;
+                        }
+                        case 5: {
+                            fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage5 = new Canvas(fifthPageBitmap);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+
+                    }
+                    drawingUpdated = 0;
+                }
+
+                // Get the current page number and redraw the images based on page number.
+                switch (pageNumber) {
+
+                    //Assign images based on page number.
+                    case 1: {
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), firstPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 2: {
-                        secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage2 = new Canvas(secondPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), secondPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 3: {
-                        thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage3 = new Canvas(thirdPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), thirdPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 4: {
-                        fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage4 = new Canvas(fourthPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), fourthPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 5: {
-                        fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage5 = new Canvas(fifthPageBitmap);
-                        break;
-                    }
-                    case 6: {
-                        sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage6 = new Canvas(sixthPageBitmap);
-                        break;
-                    }
-                    case 7: {
-                        seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage7 = new Canvas(seventhPageBitmap);
-                        break;
-                    }
-                    case 8: {
-                        eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage8 = new Canvas(eighthPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), fifthPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     default: {
@@ -298,66 +322,9 @@ public class MainActivity extends Activity implements OnClickListener {
                     }
 
                 }
-                drawingUpdated = 0;
-            }
-
-            // Get the current page number and redraw the images based on page number.
-            switch(pageNumber) {
-
-                //Assign images based on page number.
-                case 1: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), firstPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 2: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), secondPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 3: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), thirdPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 4: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), fourthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 5: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), fifthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 6: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), sixthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 7: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), seventhPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 8: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), eighthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                default :{
-                    break;
-                }
 
             }
+
 
             testView.setText(Integer.toString(drawingUpdated));
 
@@ -372,120 +339,93 @@ public class MainActivity extends Activity implements OnClickListener {
             drawView.setDrawingCacheEnabled(true);
 
             //go to next image in list
+
             pageNumber--;
+
             if (pageNumber <= 1) pageNumber = 1;
+
+            if (pageNumber > 0) {
 
                 if (drawingUpdated == 1) {
 
-                switch (pageNumber - 1) {
+                    switch (pageNumber) {
+
+                        //Assign images based on page number.
+                        case 1: {
+                            firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage1 = new Canvas(firstPageBitmap);
+                            break;
+                        }
+                        case 2: {
+                            secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage2 = new Canvas(secondPageBitmap);
+                            break;
+                        }
+                        case 3: {
+                            thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage3 = new Canvas(thirdPageBitmap);
+                            break;
+                        }
+                        case 4: {
+                            fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage4 = new Canvas(fourthPageBitmap);
+                            break;
+                        }
+                        case 5: {
+                            fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
+                            canvasPage5 = new Canvas(fifthPageBitmap);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                }
+
+                drawingUpdated = 0;
+
+
+                // Get the current page number and redraw the images based on page number.
+                switch (pageNumber) {
 
                     //Assign images based on page number.
                     case 1: {
-                        firstPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage1 = new Canvas(firstPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), firstPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 2: {
-                        secondPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage2 = new Canvas(secondPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), secondPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 3: {
-                        thirdPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage3 = new Canvas(thirdPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), thirdPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 4: {
-                        fourthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage4 = new Canvas(fourthPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), fourthPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     case 5: {
-                        fifthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage5 = new Canvas(fifthPageBitmap);
-                        break;
-                    }
-                    case 6: {
-                        sixthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage6 = new Canvas(sixthPageBitmap);
-                        break;
-                    }
-                    case 7: {
-                        seventhPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage7 = new Canvas(seventhPageBitmap);
-                        break;
-                    }
-                    case 8: {
-                        eighthPageBitmap = Bitmap.createBitmap(drawView.getDrawingCache());
-                        canvasPage8 = new Canvas(eighthPageBitmap);
+                        drawView.startNew();
+                        d = new BitmapDrawable(getResources(), fifthPageBitmap);
+                        drawView.setBackground(d);
                         break;
                     }
                     default: {
                         break;
                     }
-                }
-            }
-            drawingUpdated = 0;
 
-            /*
-            // Get the current page number and redraw the images based on page number.
-            switch(pageNumber) {
-
-                //Assign images based on page number.
-                case 1: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), firstPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 2: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), secondPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 3: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), thirdPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 4: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), fourthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 5: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), fifthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 6: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), sixthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 7: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), seventhPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                case 8: {
-                    drawView.startNew();
-                    d = new BitmapDrawable(getResources(), eighthPageBitmap);
-                    drawView.setBackground(d);
-                    break;
-                }
-                default :{
-                    break;
                 }
 
             }
-            */
             pageNumberView.setText(Integer.toString(pageNumber));
         }
 
