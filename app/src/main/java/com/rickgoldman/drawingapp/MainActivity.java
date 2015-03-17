@@ -219,6 +219,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             //go to next image in list
             //set page number
+
             if (pageNumber < 6) {
 
                 pageNumber++;
@@ -228,11 +229,9 @@ public class MainActivity extends Activity implements OnClickListener {
                 Drawable d;
                 drawView.setDrawingCacheEnabled(true);
 
-
-
                 if (drawingUpdated == 1) {
 
-                    switch (pageNumber - 1) {
+                    switch (pageNumber-1) {
 
                         //Assign images based on page number.
                         case 1: {
@@ -325,9 +324,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
 
-
             testView.setText(Integer.toString(drawingUpdated));
-
             //Clear drawViewCache and clear drawView for next page
             drawView.setDrawingCacheEnabled(false);
 
@@ -339,16 +336,14 @@ public class MainActivity extends Activity implements OnClickListener {
             drawView.setDrawingCacheEnabled(true);
 
             //go to next image in list
-
-            pageNumber--;
-
-            if (pageNumber <= 1) pageNumber = 1;
-
             if (pageNumber > 0) {
+
+                pageNumber--;
+                if (pageNumber <= 1) pageNumber = 1;
 
                 if (drawingUpdated == 1) {
 
-                    switch (pageNumber) {
+                    switch (pageNumber+1) {
 
                         //Assign images based on page number.
                         case 1: {
@@ -427,6 +422,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
             pageNumberView.setText(Integer.toString(pageNumber));
+
         }
 
     }
