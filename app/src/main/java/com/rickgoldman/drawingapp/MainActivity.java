@@ -336,7 +336,6 @@ public class MainActivity extends Activity implements OnClickListener {
             drawView.setDrawingCacheEnabled(true);
 
             //go to next image in list
-            if (pageNumber > 0) {
 
                 pageNumber--;
                 if (pageNumber <= 1) pageNumber = 1;
@@ -378,7 +377,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 }
 
                 drawingUpdated = 0;
-
 
                 // Get the current page number and redraw the images based on page number.
                 switch (pageNumber) {
@@ -422,8 +420,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
             pageNumberView.setText(Integer.toString(pageNumber));
-
-        }
 
     }
 
