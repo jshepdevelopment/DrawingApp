@@ -215,7 +215,7 @@ public class MainActivity extends Activity implements OnClickListener {
             saveDialog.show();
         }
 
-        else if(view.getId()==R.id.next_btn) {
+        else if(view.getId()==R.id.next_btn && pageNumber != 5) {
 
             //go to next image in list
             //set page number
@@ -330,7 +330,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         }
 
-        else if(view.getId()==R.id.prev_btn) {
+        else if(view.getId()==R.id.prev_btn && pageNumber != 1 ) {
 
             Drawable d;
             drawView.setDrawingCacheEnabled(true);
