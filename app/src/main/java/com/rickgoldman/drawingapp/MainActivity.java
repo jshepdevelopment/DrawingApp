@@ -374,9 +374,9 @@ public class MainActivity extends Activity implements OnClickListener {
                             break;
                         }
                     }
+                    drawingUpdated = 0;
                 }
 
-                drawingUpdated = 0;
 
                 // Get the current page number and redraw the images based on page number.
                 switch (pageNumber) {
@@ -420,6 +420,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
             pageNumberView.setText(Integer.toString(pageNumber));
+            //Clear drawViewCache and clear drawView for next page
+            drawView.setDrawingCacheEnabled(false);
 
     }
 
